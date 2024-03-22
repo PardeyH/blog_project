@@ -1,0 +1,58 @@
+<%- include("partials/header.ejs") %>
+
+  <div class="row g-5">
+    <div class="col-md-8">
+        <% if (blog.size === 0) { %>
+            <h2 class="display-5 link-body-emphasis mb-1">There are no blog entries yet!</h2>
+        <% } else { %>
+        <% blog.forEach((entry) => { %>
+            
+        <article class="blog-post">
+            <h2 class="display-5 link-body-emphasis mb-1"><%= entry.title %></h2>
+            <p><%= entry.blog_entry %></p>
+              <%= entry.entry_date %>
+            <hr>
+
+            <div class="post-manipulation">
+              <form action="/edit" method="POST">
+                <input type="hidden" name="postId" value="<%- entry.id %>">
+                <input class="btn btn-dark" type="submit" value="Edit Entry">
+              </form>
+              <form action="/delete" method="POST">
+                <input type="hidden" name="postId" value="<%- entry.id %>">
+                <input class="btn btn-danger" type="submit" value="Delete Entry">
+              </form>
+            </div>
+
+            <div>
+                <form action="/comment" method="POST">
+                    <input type="hidden" name="postId">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" contenteditable="true" type="text" name="comment" placeholder="Your comment..."></textarea>
+                    <input class="btn btn-dark" type="submit" value="New comment">
+                </form>
+            </div>
+        </article>
+
+        <% }); } %>
+    </div>
+
+    <div class="col-md-4">
+      <div class="position-sticky" style="top: 2rem;">
+        <div class="p-4 mb-3 bg-body-tertiary rounded">
+          <h4 class="fst-italic">Create a new blog entry:</h4>
+            <form action="/add" method="POST">
+              <div class="mb-3">
+                <input class="form-control" id="exampleFormControlInput1" input type="text" name="title" placeholder="Title">
+              </div>
+              <div class="mb-3">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" type="text" name="blogText" placeholder="Text"></textarea>
+                <input class="btn btn-dark" type="submit" value="New Entry">
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer.ejs") %>
