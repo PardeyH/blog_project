@@ -61,6 +61,7 @@ app.post("/add", async (req, res) => {
 app.post("/delete", async (req, res) => {
     const deleteEntryId = req.body.postId;
     try {
+        await db.query("DELETE FROM comment WHERE entry_id = $1", [deleteEntryId]);
         await db.query("DELETE FROM blog_entry WHERE id = $1", [deleteEntryId]);
         res.redirect("/");
     } catch (err) {

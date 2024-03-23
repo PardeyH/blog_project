@@ -18,3 +18,10 @@
     margin-top: 5px;
     margin-bottom: 3px;
 }
+
+#comment__container {
+    width: 80%;
+    background-color: #c2c2c288;
+    border-radius: 5px;
+    margin-bottom: 8px;
+}

@@ -9,8 +9,9 @@
             
         <article class="blog-post">
             <h2 class="display-5 link-body-emphasis mb-1"><%= entry.title %></h2>
-            <p><%= entry.blog_entry %></p>
-              <%= entry.entry_date %>
+            <p>           
+              <%= entry.entry_date %><br><br>
+              <%= entry.blog_entry %></p>
             <hr>
 
             <div class="post-manipulation">
@@ -23,13 +24,18 @@
                 <input class="btn btn-danger" type="submit" value="Delete Entry">
               </form>
             </div>
-            <% comments.forEach((comment) => { %>
-              <% if (entry.id === comment.entry_id) { %>
-                <div class="container">
-                  <%= comment.comment_text %><br>
-                </div>
-              <% } %>
-            <% }) %>
+            Comments: 
+            <div id="comment__container">
+
+              <% comments.forEach((comment) => { %>
+                <% if (entry.id === comment.entry_id) { %>
+                  <div class="container">
+                    <%= comment.comment_text %><br>
+                  </div>
+                <% } %>
+              <% }) %>
+            </div>
+
             <div>
                 <form action="/comment" method="POST">
                     <input type="hidden" name="postId" value="<%- entry.id %>">
