@@ -23,10 +23,16 @@
                 <input class="btn btn-danger" type="submit" value="Delete Entry">
               </form>
             </div>
-
+            <% comments.forEach((comment) => { %>
+              <% if (entry.id === comment.entry_id) { %>
+                <div class="container">
+                  <%= comment.comment_text %><br>
+                </div>
+              <% } %>
+            <% }) %>
             <div>
                 <form action="/comment" method="POST">
-                    <input type="hidden" name="postId">
+                    <input type="hidden" name="postId" value="<%- entry.id %>">
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" contenteditable="true" type="text" name="comment" placeholder="Your comment..."></textarea>
                     <input class="btn btn-dark" type="submit" value="New comment">
                 </form>

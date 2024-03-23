@@ -27,17 +27,14 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', now() ,2);
 
 
-/* Join */
-SELECT * 
-FROM users
-JOIN blog_entry
-ON users.id = user_id
-
-
 /* Many To One */
 CREATE TABLE comment (
     id SERIAL PRIMARY KEY,
     comment_text TEXT,
-    entry_id REFERENCES entry(id),
-    user_id REFERENCES user(id)
+    comment_date DATE,
+    entry_id INTEGER REFERENCES blog_entry(id),
+    user_id INTEGER REFERENCES users(id)
 );
+
+INSERT INTO comment (comment_text, comment_date, entry_id, user_id)
+VALUES ('First comment', now(), 1, 1),('First comment', now(), 1, 1),('Third comment', now(), 2, 2);

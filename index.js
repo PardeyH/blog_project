@@ -27,10 +27,18 @@ async function getBlogEntries(){
     return result.rows;
 };
 
+async function getComments(){
+    const result = await db.query(
+        "SELECT * FROM comment ORDER BY id DESC");
+    return result.rows;
+}
+
 app.get("/", async (req, res) => {
     const blogEntries = await getBlogEntries();
+    const comments = await getComments();
     res.render("index.ejs", {
-        blog: blogEntries
+        blog: blogEntries,
+        comments : comments
     });
 });
 
@@ -83,14 +91,22 @@ app.post("/editBlogEntry", async (req, res) => {
     } catch (err) {
         console.log(err);
     }
-
-
 });
 
-app.post("/comment", (req, res) => {
+app.post("/comment", async (req, res) => {
     const blogComment = req.body.comment;
+    const date = new Date().toISOString();
+    const entryId = req.body.postId;
 
-    res.redirect("/");
+    try {
+        await db.query(
+            "INSERT INTO comment (comment_text, comment_date, entry_id, user_id) VALUES ($1, $2, $3, $4)",
+            [blogComment, date, entryId, currentUserId]
+        );
+        res.redirect("/");
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 app.listen(port, () => {
